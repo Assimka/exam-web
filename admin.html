@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управления</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #0f1014;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #2a2b36;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #5d6bff;
+            font-size: 24px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background: #252631;
+            color: #a0a0b0;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .tab-btn.active {
+            background: #5d6bff;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: #191a22;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .add-btn {
+            background: #5d6bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #2a2b36;
+        }
+
+        th {
+            background: #252631;
+            color: #a0a0b0;
+        }
+
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .btn-edit {
+            background: #e9c46a;
+            color: #000;
+        }
+
+        .btn-delete {
+            background: #e76f51;
+            color: white;
+        }
+
+        /* Форма добавления */
+        .add-form {
+            background: #252631;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #a0a0b0;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            background: #191a22;
+            border: 1px solid #353743;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-cancel {
+            background: #666;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo">
+                <i class="fas fa-tooth"></i>
+                <span>Админ-панель</span>
+            </a>
+            <button class="logout-btn" onclick="window.location.href='index.html'">Выйти</button>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('patients')">Пациенты</button>
+            <button class="tab-btn" onclick="showTab('doctors')">Врачи</button>
+        </div>
+
+        <!-- Пациенты -->
+        <div id="patients" class="tab-content active">
+            <div class="table-header">
+                <h3>Пациенты</h3>
+                <button class="add-btn" onclick="showAddForm()">Добавить пациента</button>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Телефон</th>
+                        <th>Email</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="patientsTable">
+                    <!-- Данные будут тут -->
+                </tbody>
+            </table>
+
+            <!-- Форма добавления (скрыта по умолчанию) -->
+            <div id="addForm" class="add-form" style="display: none;">
+                <h3>Добавить пациента</h3>
+                <form id="patientForm">
+                    <div class="form-group">
+                        <label>ФИО</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email">
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn-cancel" onclick="hideAddForm()">Отмена</button>
+                        <button type="submit" class="add-btn">Добавить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Врачи -->
+        <div id="doctors" class="tab-content">
+            <div class="table-header">
+                <h3>Врачи</h3>
+                <button class="add-btn" onclick="showAddDoctorForm()">Добавить врача</button>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Телефон</th>
+                        <th>Email</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="doctorsTable">
+                    <!-- Данные будут тут -->
+                </tbody>
+            </table>
+
+            <!-- Форма добавления врача -->
+            <div id="addDoctorForm" class="add-form" style="display: none;">
+                <h3>Добавить врача</h3>
+                <form id="doctorForm">
+                    <div class="form-group">
+                        <label>ФИО</label>
+                        <input type="text" id="doctorFullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="tel" id="doctorPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="doctorEmail">
+                    </div>
+                    <div class="form-group">
+                        <label>Специальность</label>
+                        <input type="text" id="specialty">
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn-cancel" onclick="hideAddDoctorForm()">Отмена</button>
+                        <button type="submit" class="add-btn">Добавить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        // Данные пациентов (из вашего примера)
+        let patients = [
+            {
+                id: 1,
+                fullName: "Иванов Иван Иванович",
+                phone: "+7 (999) 123-45-67",
+                email: "kanov@mail.ru"
+            },
+            {
+                id: 2,
+                fullName: "Петрова Мария Сергеевна",
+                phone: "+7 (999) 234-56-78",
+                email: "petrova@mail.ru"
+            },
+            {
+                id: 3,
+                fullName: "Сидоров Алексей Петрович",
+                phone: "+7 (999) 345-67-89",
+                email: "sidorov@mail.ru"
+            }
+        ];
+
+        // Данные врачей (пример)
+        let doctors = [
+            {
+                id: 1,
+                fullName: "Иванова Анна Сергеевна",
+                phone: "+7 (999) 111-22-33",
+                email: "ivanova@clinic.ru",
+                specialty: "Терапевт"
+            },
+            {
+                id: 2,
+                fullName: "Петров Максим Владимирович",
+                phone: "+7 (999) 222-33-44",
+                email: "petrov@clinic.ru",
+                specialty: "Хирург"
+            }
+        ];
+
+        // Показать вкладку
+        function showTab(tabName) {
+            // Скрыть все вкладки
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Убрать активный класс у всех кнопок
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Показать выбранную вкладку
+            document.getElementById(tabName).classList.add('active');
+            
+            // Активировать кнопку
+            event.target.classList.add('active');
+            
+            // Загрузить данные для вкладки
+            if (tabName === 'patients') {
+                loadPatients();
+            } else if (tabName === 'doctors') {
+                loadDoctors();
+            }
+        }
+
+        // Загрузить пациентов в таблицу
+        function loadPatients() {
+            const table = document.getElementById('patientsTable');
+            table.innerHTML = '';
+            
+            patients.forEach(patient => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${patient.fullName}</td>
+                    <td>${patient.phone}</td>
+                    <td>${patient.email}</td>
+                    <td class="actions">
+                        <button class="btn-edit" onclick="editPatient(${patient.id})">Изменить</button>
+                        <button class="btn-delete" onclick="deletePatient(${patient.id})">Удалить</button>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+        }
+
+        // Загрузить врачей в таблицу
+        function loadDoctors() {
+            const table = document.getElementById('doctorsTable');
+            table.innerHTML = '';
+            
+            doctors.forEach(doctor => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${doctor.fullName}</td>
+                    <td>${doctor.phone}</td>
+                    <td>${doctor.email}</td>
+                    <td class="actions">
+                        <button class="btn-edit" onclick="editDoctor(${doctor.id})">Изменить</button>
+                        <button class="btn-delete" onclick="deleteDoctor(${doctor.id})">Удалить</button>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+        }
+
+        // Показать форму добавления пациента
+        function showAddForm() {
+            document.getElementById('addForm').style.display = 'block';
+            document.getElementById('patientForm').reset();
+        }
+
+        // Скрыть форму добавления пациента
+        function hideAddForm() {
+            document.getElementById('addForm').style.display = 'none';
+        }
+
+        // Показать форму добавления врача
+        function showAddDoctorForm() {
+            document.getElementById('addDoctorForm').style.display = 'block';
+            document.getElementById('doctorForm').reset();
+        }
+
+        // Скрыть форму добавления врача
+        function hideAddDoctorForm() {
+            document.getElementById('addDoctorForm').style.display = 'none';
+        }
+
+        // Добавить пациента (обработка формы)
+        document.getElementById('patientForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            
+            // Проверка, что все обязательные поля заполнены
+            if (!fullName || !phone) {
+                alert('Заполните обязательные поля: ФИО и Телефон');
+                return;
+            }
+            
+            // Создаем нового пациента
+            const newPatient = {
+                id: patients.length > 0 ? Math.max(...patients.map(p => p.id)) + 1 : 1,
+                fullName: fullName,
+                phone: phone,
+                email: email
+            };
+            
+            // Добавляем в массив
+            patients.push(newPatient);
+            
+            // Обновляем таблицу
+            loadPatients();
+            
+            // Скрываем форму и очищаем
+            hideAddForm();
+            document.getElementById('patientForm').reset();
+            
+            // Сообщение об успехе
+            alert('Пациент добавлен');
+        });
+
+        // Добавить врача (обработка формы)
+        document.getElementById('doctorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('doctorFullName').value;
+            const phone = document.getElementById('doctorPhone').value;
+            const email = document.getElementById('doctorEmail').value;
+            const specialty = document.getElementById('specialty').value;
+            
+            // Проверка обязательных полей
+            if (!fullName || !phone) {
+                alert('Заполните обязательные поля: ФИО и Телефон');
+                return;
+            }
+            
+            // Создаем нового врача
+            const newDoctor = {
+                id: doctors.length > 0 ? Math.max(...doctors.map(d => d.id)) + 1 : 1,
+                fullName: fullName,
+                phone: phone,
+                email: email,
+                specialty: specialty
+            };
+            
+            // Добавляем в массив
+            doctors.push(newDoctor);
+            
+            // Обновляем таблицу
+            loadDoctors();
+            
+            // Скрываем форму
+            hideAddDoctorForm();
+            
+            // Сообщение об успехе
+            alert('Врач добавлен');
+        });
+
+        // Редактировать пациента (упрощенная версия - просто удалить и добавить новый)
+        function editPatient(id) {
+            const patient = patients.find(p => p.id === id);
+            if (!patient) return;
+            
+            const newName = prompt('Введите новое ФИО:', patient.fullName);
+            if (!newName) return;
+            
+            const newPhone = prompt('Введите новый телефон:', patient.phone);
+            if (!newPhone) return;
+            
+            const newEmail = prompt('Введите новый email:', patient.email);
+            
+            // Обновляем данные
+            patient.fullName = newName;
+            patient.phone = newPhone;
+            if (newEmail) patient.email = newEmail;
+            
+            // Обновляем таблицу
+            loadPatients();
+            alert('Данные пациента обновлены');
+        }
+
+        // Удалить пациента
+        function deletePatient(id) {
+            if (confirm('Удалить этого пациента?')) {
+                patients = patients.filter(p => p.id !== id);
+                loadPatients();
+            }
+        }
+
+        // Редактировать врача
+        function editDoctor(id) {
+            const doctor = doctors.find(d => d.id === id);
+            if (!doctor) return;
+            
+            const newName = prompt('Введите новое ФИО:', doctor.fullName);
+            if (!newName) return;
+            
+            const newPhone = prompt('Введите новый телефон:', doctor.phone);
+            if (!newPhone) return;
+            
+            const newEmail = prompt('Введите новый email:', doctor.email);
+            const newSpecialty = prompt('Введите новую специальность:', doctor.specialty);
+            
+            // Обновляем данные
+            doctor.fullName = newName;
+            doctor.phone = newPhone;
+            if (newEmail) doctor.email = newEmail;
+            if (newSpecialty) doctor.specialty = newSpecialty;
+            
+            // Обновляем таблицу
+            loadDoctors();
+            alert('Данные врача обновлены');
+        }
+
+        // Удалить врача
+        function deleteDoctor(id) {
+            if (confirm('Удалить этого врача?')) {
+                doctors = doctors.filter(d => d.id !== id);
+                loadDoctors();
+            }
+        }
+
+        // Загрузить данные при запуске
+        window.addEventListener('DOMContentLoaded', function() {
+            loadPatients();
+            loadDoctors();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  website:
+    build: .                     # Собираем из Dockerfile
+    container_name: dental-clinic # Имя контейнера
+    ports:
+      - "80:80"                  # Сопоставляем порты: локальный:контейнерный
+    restart: always              # Автоперезапуск при падении

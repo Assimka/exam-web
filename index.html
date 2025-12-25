@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Стоматологическая клиника 'Улыбка' - профессиональное лечение зубов в Новосибирске">
+    <meta name="keywords" content="стоматология, лечение зубов, имплантация, отбеливание, Новосибирск">
+    <title>Стоматологическая клиника "Улыбка"</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+</head>
+<body>
+    <!-- Навигация -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo">
+            <i class="fas fa-tooth"></i>
+            <span>Улыбка</span>
+        </a>
+        <button class="menu-toggle" aria-label="Меню">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-menu">
+            <li><a href="index.html" class="active"><i class="fas fa-home"></i> Главная</a></li>
+            <li><a href="#services"><i class="fas fa-stethoscope"></i> Услуги</a></li>
+            <li><a href="#doctors"><i class="fas fa-user-md"></i> Врачи</a></li>
+            <li><a href="#contact"><i class="fas fa-phone"></i> Контакты</a></li>
+            
+            <!-- кнопкка админ панели -->
+            <li id="admin-nav-item">
+                <a href="admin.html" class="admin-btn">
+                    <i class="fas fa-tachometer-alt"></i> Админ
+                </a>
+            </li>
+            
+            <!-- Кнопка Войти/Выйти -->
+            <li id="auth-nav">
+                <a href="auth.html" id="auth-link">
+                    <i class="fas fa-sign-in-alt"></i> <span id="auth-text">Войти</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <!-- Герой-секция -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Профессиональная стоматология в Новосибирске</h1>
+            <p>Здоровые зубы - красивая улыбка! Современное оборудование, опытные врачи, безболезненное лечение.</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">Записаться на прием</a>
+                <a href="#services" class="btn btn-secondary">Наши услуги</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <!-- <img src="" alt="Современный стоматологический кабинет"> -->
+        </div>
+    </header>
+
+    <!-- Услуги -->
+    <section id="services" class="section">
+        <div class="container">
+            <h2 class="section-title">Наши услуги</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-tooth"></i>
+                    </div>
+                    <h3>Терапия</h3>
+                    <p>Лечение кариеса, пульпита, периодонтита. Современные пломбировочные материалы.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-teeth"></i>
+                    </div>
+                    <h3>Ортодонтия</h3>
+                    <p>Исправление прикуса, брекет-системы, элайнеры для детей и взрослых.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Протезирование</h3>
+                    <p>Коронки, мосты, виниры, протезирование на имплантах.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-syringe"></i>
+                    </div>
+                    <h3>Имплантация</h3>
+                    <p>Установка зубных имплантов любой сложности с пожизненной гарантией.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-spray-can"></i>
+                    </div>
+                    <h3>Отбеливание</h3>
+                    <p>Профессиональное отбеливание зубов системой Zoom 4 за 1 посещение.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-baby"></i>
+                    </div>
+                    <h3>Детская стоматология</h3>
+                    <p>Лечение зубов у детей, профилактика, обучение гигиене в игровой форме.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Врачи -->
+    <section id="doctors" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Наши врачи</h2>
+            <div class="doctors-grid">
+                <div class="doctor-card">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Доктор Иванова">
+                    <h3>Иванова Анна Сергеевна</h3>
+                    <p class="doctor-specialty">Врач-терапевт, стаж 15 лет</p>
+                    <p class="doctor-desc">Специалист по лечению кариеса и эстетической реставрации.</p>
+                </div>
+                <div class="doctor-card">
+                    <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Доктор Петров">
+                    <h3>Петров Максим Владимирович</h3>
+                    <p class="doctor-specialty">Хирург-имплантолог, стаж 12 лет</p>
+                    <p class="doctor-desc">Провел более 1000 успешных операций по имплантации.</p>
+                </div>
+                <div class="doctor-card">
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Доктор Сидорова">
+                    <h3>Сидорова Ольга Михайловна</h3>
+                    <p class="doctor-specialty">Ортодонт, стаж 10 лет</p>
+                    <p class="doctor-desc">Специалист по исправлению прикуса у детей и взрослых.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Контакты</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Адрес</h3>
+                            <p>г. Новосибирск, ул. Ленина, 12</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Телефон</h3>
+                            <p>+7 (383) 123-45-67</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>info@smile-dental.ru</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Часы работы</h3>
+                            <p>Пн-Пт: 8:00-20:00<br>Сб: 9:00-18:00<br>Вс: 10:00-16:00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Записаться на прием</h3>
+                    <form id="appointment-form">
+                        <input type="text" placeholder="Ваше имя" required>
+                        <input type="tel" placeholder="Телефон" required>
+                        <input type="email" placeholder="Email" required>
+                        <select required>
+                            <option value="">Выберите услугу</option>
+                            <option value="therapy">Терапия</option>
+                            <option value="orthodontics">Ортодонтия</option>
+                            <option value="prosthetics">Протезирование</option>
+                            <option value="implantation">Имплантация</option>
+                        </select>
+                        <textarea placeholder="Комментарий" rows="4"></textarea>
+                        <button type="submit" class="btn btn-primary">Отправить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-tooth"></i>
+                    <span>Улыбка</span>
+                </div>
+                <p class="footer-text">© 2025 Стоматологическая клиника "Улыбка". Все права защищены.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Мобильное меню
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Проверка авторизации
+        if (localStorage.getItem('userLoggedIn') === 'true') {
+            document.getElementById('auth-nav').style.display = 'none';
+            document.getElementById('admin-nav').style.display = 'block';
+        }
+
+        // Форма записи
+        document.getElementById('appointment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

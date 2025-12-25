@@ -1,0 +1,11 @@
+# 1. Берем легкий образ Nginx
+FROM nginx:alpine
+
+# 2. Копируем все файлы проекта в контейнер
+COPY . /usr/share/nginx/html/
+
+# 3. Открываем порт 80 для веб-доступа
+EXPOSE 80
+
+# 4. Команда запуска 
+CMD ["nginx", "-g", "daemon off;"]
