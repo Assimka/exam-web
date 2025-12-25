@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Просмотр данных - МедСистема</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        }
+
+        body {
+            background: #0f1014;
+            color: #e0e0e0;
+            min-height: 100vh;
+            background: radial-gradient(circle at 50% 0%, #1a1b23 0%, #0f1014 100%);
+        }
+
+        /* Навигация */
+        .navbar {
+            background: #191a22;
+            padding: 18px 40px;
+            border-bottom: 1px solid #2a2b36;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #5d6bff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #a0a0b0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            background: rgba(93, 107, 255, 0.1);
+        }
+
+        .nav-links a.active {
+            color: #ffffff;
+            background: rgba(93, 107, 255, 0.15);
+            border-left: 3px solid #5d6bff;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #3d4be5 0%, #1a2ade 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Основной контент */
+        .main-container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 30px;
+        }
+
+        /* Заголовок страницы */
+        .page-header {
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #2a2b36;
+        }
+
+        .page-header h1 {
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-header h1 i {
+            color: #5d6bff;
+        }
+
+        .page-subtitle {
+            color: #8a8b9a;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+
+        /* Статистика */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: #191a22;
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid #2a2b36;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: #353743;
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .stat-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 12px;
+            background: rgba(93, 107, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #5d6bff;
+        }
+
+        .stat-change {
+            font-size: 14px;
+            color: #4CAF50;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #8a8b9a;
+            font-size: 15px;
+        }
+
+        /* Фильтры */
+        .filters-section {
+            background: #191a22;
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid #2a2b36;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: #5d6bff;
+        }
+
+        .filters-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #a0a0b0;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .filter-input, .filter-select {
+            width: 100%;
+            padding: 14px 16px;
+            background: #252631;
+            border: 1px solid #353743;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #ffffff;
+            transition: all 0.25s ease;
+            outline: none;
+        }
+
+        .filter-input:focus, .filter-select:focus {
+            border-color: #5d6bff;
+            box-shadow: 0 0 0 3px rgba(93, 107, 255, 0.15);
+            background: #2a2c3a;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            align-self: flex-end;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3d4be5 0%, #1a2ade 100%);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #3f4ef4 0%, #1f31fc 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(93, 107, 255, 0.25);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #a0a0b0;
+            border: 1px solid #353743;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        /* Таблицы */
+        .data-section {
+            background: #191a22;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #2a2b36;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table thead {
+            background: rgba(93, 107, 255, 0.1);
+            border-bottom: 2px solid #2a2b36;
+        }
+
+        .data-table th {
+            padding: 18px 20px;
+            text-align: left;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 15px;
+            border: none;
+        }
+
+        .data-table th i {
+            margin-left: 8px;
+            opacity: 0.7;
+            cursor: pointer;
+        }
+
+        .data-table tbody tr {
+            border-bottom: 1px solid #2a2b36;
+            transition: background 0.25s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .data-table td {
+            padding: 18px 20px;
+            color: #e0e0e0;
+            font-size: 15px;
+        }
+
+        /* Статусы */
+        .status-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .status-inactive {
+            background: rgba(244, 67, 54, 0.15);
+            color: #F44336;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.15);
+            color: #FFC107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        /* Кнопки действий в таблице */
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-table {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #a0a0b0;
+            border: 1px solid #353743;
+        }
+
+        .btn-table:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .btn-view:hover {
+            background: rgba(23, 162, 184, 0.2);
+            border-color: #17a2b8;
+            color: #17a2b8;
+        }
+
+        .btn-edit:hover {
+            background: rgba(255, 193, 7, 0.2);
+            border-color: #FFC107;
+            color: #FFC107;
+        }
+
+        .btn-delete:hover {
+            background: rgba(244, 67, 54, 0.2);
+            border-color: #F44336;
+            color: #F44336;
+        }
+
+        /* Пагинация */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 30px;
+        }
+
+        .pagination button {
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #353743;
+            color: #a0a0b0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            min-width: 40px;
+        }
+
+        .pagination button:hover {
+            background: rgba(93, 107, 255, 0.1);
+            color: #ffffff;
+            border-color: #5d6bff;
+        }
+
+        .pagination button.active {
+            background: linear-gradient(135deg, #3d4be5 0%, #1a2ade 100%);
+            color: #ffffff;
+            border-color: #5d6bff;
+        }
+
+        /* Футер */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 25px;
+            color: #8a8b9a;
+            font-size: 14px;
+            border-top: 1px solid #2a2b36;
+        }
+
+        .update-info {
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .main-container {
+                padding: 0 20px;
+            }
+            
+            .navbar {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .filters-row {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                min-width: 100%;
+            }
+            
+            .action-buttons {
+                align-self: stretch;
+            }
+            
+            .btn {
+                justify-content: center;
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .table-actions {
+                flex-wrap: wrap;
+            }
+            
+            .page-header h1 {
+                font-size: 26px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 0 15px;
+            }
+            
+            .stat-card, .filters-section, .data-section {
+                padding: 20px;
+            }
+            
+            .nav-links {
+                gap: 10px;
+            }
+            
+            .nav-links a {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-hospital"></i> МедСистема
+        </a>
+        
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Главная</a>
+            <a href="data-display.html" class="active"><i class="fas fa-database"></i> Данные</a>
+            <a href="admin.html"><i class="fas fa-user-md"></i> Админ-панель</a>
+            <a href="auth.html"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+            
+            <div class="user-info">
+                <div class="user-avatar">АИ</div>
+                <div>
+                    <div style="font-weight: 600; color: #ffffff;">Александр Иванов</div>
+                    <div style="font-size: 12px; color: #8a8b9a;">Администратор</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <div class="main-container">
+        <!-- Заголовок -->
+        <div class="page-header">
+            <h1><i class="fas fa-database"></i> Просмотр данных системы</h1>
+            <div class="page-subtitle">
+                Управление и анализ медицинских данных. Всего записей: <span id="totalRecords">32</span>
+            </div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-injured"></i>
+                    </div>
+                    <div class="stat-change"></div>
+                </div>
+                <div class="stat-value" id="totalPatients">24</div>
+                <div class="stat-label">Пациентов</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="stat-change"></div>
+                </div>
+                <div class="stat-value" id="totalDoctors">8</div>
+                <div class="stat-label">Врачей</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-change"></div>
+                </div>
+                <div class="stat-value" id="totalAppointments">156</div>
+                <div class="stat-label">Записей на прием</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-change"></div>
+                </div>
+                <div class="stat-value" id="activeUsers">28</div>
+                <div class="stat-label">Активных пользователей</div>
+            </div>
+        </div>
+
+        <!-- Фильтры -->
+        <div class="filters-section">
+            <div class="section-title">
+                <i class="fas fa-filter"></i> Фильтры и поиск
+            </div>
+            
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label for="searchInput"><i class="fas fa-search"></i> Поиск по всем полям</label>
+                    <input type="text" id="searchInput" class="filter-input" placeholder="Введите текст для поиска..." onkeyup="filterData()">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="statusFilter"><i class="fas fa-user-check"></i> Статус пациента</label>
+                    <select id="statusFilter" class="filter-select" onchange="filterData()">
+                        <option value="">Все статусы</option>
+                        <option value="active">Активный</option>
+                        <option value="inactive">Неактивный</option>
+                        <option value="pending">На лечении</option>
+                    </select>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="clearFilters()">
+                        <i class="fas fa-times"></i> Сбросить
+                    </button>
+                    <button class="btn btn-primary" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i> Обновить
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Пациенты -->
+        <div class="data-section">
+            <div class="section-title">
+                <i class="fas fa-user-injured"></i> Пациенты
+                <div style="margin-left: auto; font-size: 14px; color: #8a8b9a;">
+                    Всего: <span id="patientsCount">8</span> записей
+                </div>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th onclick="sortBy('id')">ID <i class="fas fa-sort"></i></th>
+                        <th onclick="sortBy('name')">ФИО <i class="fas fa-sort"></i></th>
+                        <th onclick="sortBy('phone')">Телефон <i class="fas fa-sort"></i></th>
+                        <th onclick="sortBy('email')">Email <i class="fas fa-sort"></i></th>
+                        <th onclick="sortBy('birthdate')">Дата рождения <i class="fas fa-sort"></i></th>
+                        <th onclick="sortBy('status')">Статус <i class="fas fa-sort"></i></th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="patientsTableBody">
+                    <!-- Данные загружаются через JavaScript -->
+                </tbody>
+            </table>
+            
+            <div class="pagination" id="patientsPagination">
+                <!-- Пагинация -->
+            </div>
+        </div>
+
+        <!-- Врачи -->
+        <div class="data-section">
+            <div class="section-title">
+                <i class="fas fa-user-md"></i> Врачи
+                <div style="margin-left: auto; font-size: 14px; color: #8a8b9a;">
+                    Всего: <span id="doctorsCount">5</span> записей
+                </div>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th onclick="sortDoctorsBy('id')">ID <i class="fas fa-sort"></i></th>
+                        <th onclick="sortDoctorsBy('name')">ФИО <i class="fas fa-sort"></i></th>
+                        <th onclick="sortDoctorsBy('specialty')">Специальность <i class="fas fa-sort"></i></th>
+                        <th onclick="sortDoctorsBy('phone')">Телефон <i class="fas fa-sort"></i></th>
+                        <th onclick="sortDoctorsBy('experience')">Стаж <i class="fas fa-sort"></i></th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="doctorsTableBody">
+                    <!-- Данные загружаются через JavaScript -->
+                </tbody>
+            </table>
+            
+            <div class="pagination" id="doctorsPagination">
+                <!-- Пагинация -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <div class="footer">
+        <p>Медицинская система управления данными © 2024</p>
+        <p class="update-info">
+            <i class="fas fa-info-circle"></i> Данные обновляются в реальном времени. 
+            Последнее обновление: <span id="lastUpdate">сегодня, 12:30</span>
+        </p>
+    </div>
+
+   
+</body>
+</html>
